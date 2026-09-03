@@ -26,9 +26,8 @@ public class Transaction implements Serializable{
 	public Transaction() {
 	}
 	
-	public Transaction(Long id, String type, Double amount) {
+	public Transaction(String type, Double amount) {
 		super();
-		this.id = id;
 		this.dateTime = LocalDateTime.now();
 		this.type = type;
 		this.amount = amount;

@@ -233,8 +233,8 @@ public class Account implements Serializable{
 		balance += balance * interestRate;
 	}
 
-	public void addTransaction(Long id, String type, Double amount) {
-		transactions.add(new Transaction(id, type, amount));
+	public void addTransaction(String type, Double amount) {
+		transactions.add(new Transaction(type, amount));
 	}
 
 	public List<Transaction> getTransactions() {
