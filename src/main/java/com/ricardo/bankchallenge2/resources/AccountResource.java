@@ -48,5 +48,58 @@ public class AccountResource {
 	    service.deposit(id, amount);
 	    return ResponseEntity.noContent().build();
 	}
-
+	
+	@PostMapping("/{id}/withdraw")
+	public ResponseEntity<Void> withdraw(@PathVariable Long id, @RequestParam Double amount) {
+	    service.withdraw(id, amount);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/{id}/balance")
+	public ResponseEntity<Double> checkBalance(@PathVariable Long id) {
+	    Double balance = service.checkBalance(id);
+	    return ResponseEntity.ok().body(balance);
+	}
+	
+	@GetMapping("/{id}/limit")
+	public ResponseEntity<Double> checkLimit(@PathVariable Long id) {
+	    Double limit = service.checkLimit(id);
+	    return ResponseEntity.ok().body(limit);
+	}
+	
+	@PostMapping("/{id}/request-limit")
+	public ResponseEntity<Void> requestLimit(@PathVariable Long id, @RequestParam Double amount) {
+	    service.requestLimit(id, amount);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id}/change-password")
+	public ResponseEntity<Void> changePassword(@PathVariable Long id, @RequestParam String currentPassword, @RequestParam String newPassword) {
+	    service.changePassword(id, currentPassword, newPassword);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id}/change-address")
+	public ResponseEntity<Void> changeAddress(@PathVariable Long id, @RequestParam String newAddress) {
+	    service.changeAddress(id, newAddress);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id}/change-contact")
+	public ResponseEntity<Void> changeContactInformation(@PathVariable Long id, @RequestParam String phoneNumber, @RequestParam String email) {
+	    service.changeContactInformation(id, phoneNumber, email);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id}/block-card")
+	public ResponseEntity<Void> blockCard(@PathVariable Long id) {
+	    service.blockCard(id);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id}/request-loan")
+	public ResponseEntity<Void> requestLoan(@PathVariable Long id, @RequestParam Double amount) {
+	    service.requestLoan(id, amount);
+	    return ResponseEntity.noContent().build();
+	}
 }
