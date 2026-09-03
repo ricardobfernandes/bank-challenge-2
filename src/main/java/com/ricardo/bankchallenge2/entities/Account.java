@@ -7,14 +7,29 @@ import java.util.Random;
 
 import com.ricardo.bankchallenge2.entities.enums.AccountType;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class Account {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private Integer agencyNumber;
 	private Integer accountNumber;
 	private String password;
 	private String address;
 	private String phoneNumber;
 	private String email;
+	
+	@Enumerated(EnumType.STRING)
 	private AccountType accountType;
 	private String accountHolder;
 	private String cardNumber;
@@ -23,8 +38,15 @@ public class Account {
 	private boolean cardBlocked;
 	private Double investedBalance;
 	protected Double balance;
+	private Double creditLimit;
+	private Double interestRate;
+	
+	@OneToMany
 	protected List<Transaction> transactions;
 
+	public Account() {
+	}
+	
 	public Account(Integer agencyNumber, Integer accountNumber, String password, String address, String phoneNumber,
 			String email, AccountType accountType, String accountHolder, Double balance) {
 		this.accountNumber = accountNumber;
@@ -162,6 +184,22 @@ public class Account {
 
 	public void setBalance(Double balance) {
 		this.balance = balance;
+	}
+	
+	public Double getCreditLimit() {
+		return creditLimit;
+	}
+
+	public void setCreditLimit(Double creditLimit) {
+		this.creditLimit = creditLimit;
+	}
+
+	public Double getInterestRate() {
+		return interestRate;
+	}
+
+	public void setInterestRate(Double interestRate) {
+		this.interestRate = interestRate;
 	}
 
 	public void withdraw(double amount) {
