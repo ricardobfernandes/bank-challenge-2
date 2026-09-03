@@ -52,8 +52,10 @@ public class Account implements Serializable{
 	public Account(){
 	}
 	
-	public Account(Integer agencyNumber, Integer accountNumber, String password, String address, String phoneNumber,
+	public Account(Long id, Integer agencyNumber, Integer accountNumber, String password, String address, String phoneNumber,
 			String email, AccountType accountType, String accountHolder, Double balance) {
+		super();
+		this.id = id;
 		this.accountNumber = accountNumber;
 		this.agencyNumber = agencyNumber;
 		this.password = password;
@@ -69,6 +71,14 @@ public class Account implements Serializable{
 		this.investedBalance = 0.0;
 		this.balance = balance;
 		this.transactions = new ArrayList<>();
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Double getInvestedBalance() {
@@ -223,8 +233,8 @@ public class Account implements Serializable{
 		balance += balance * interestRate;
 	}
 
-	public void addTransaction(String type, Double amount) {
-		transactions.add(new Transaction(type, amount));
+	public void addTransaction(Long id, String type, Double amount) {
+		transactions.add(new Transaction(id, type, amount));
 	}
 
 	public List<Transaction> getTransactions() {

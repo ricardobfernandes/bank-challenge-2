@@ -26,12 +26,22 @@ public class Transaction implements Serializable{
 	public Transaction() {
 	}
 	
-	public Transaction(String type, Double amount) {
+	public Transaction(Long id, String type, Double amount) {
+		super();
+		this.id = id;
 		this.dateTime = LocalDateTime.now();
 		this.type = type;
 		this.amount = amount;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getType() {
 		return type;
 	}
