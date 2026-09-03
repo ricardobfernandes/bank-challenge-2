@@ -1,8 +1,10 @@
 package com.ricardo.bankchallenge2.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import com.ricardo.bankchallenge2.entities.enums.AccountType;
@@ -16,7 +18,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Account {
+public class Account implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +47,7 @@ public class Account {
 	@OneToMany
 	protected List<Transaction> transactions;
 
-	public Account() {
+	public Account(){
 	}
 	
 	public Account(Integer agencyNumber, Integer accountNumber, String password, String address, String phoneNumber,
@@ -209,6 +212,14 @@ public class Account {
 	public void deposit(double amount) {
 		balance += amount;
 	}
+	
+	public void increaseCreditLimit(Double increaseAmount) {
+		this.creditLimit += increaseAmount;
+	}
+	
+	public void updateBalance() {
+		balance += balance * interestRate;
+	}
 
 	public void addTransaction(String type, Double amount) {
 		transactions.add(new Transaction(type, amount));
@@ -216,6 +227,23 @@ public class Account {
 
 	public List<Transaction> getTransactions() {
 		return transactions;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		return Objects.equals(id, other.id);
 	}
 
 	public String toString() {
