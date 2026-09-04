@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import com.ricardo.bankchallenge2.entities.Account;
 import com.ricardo.bankchallenge2.entities.Transaction;
 import com.ricardo.bankchallenge2.entities.enums.AccountType;
 import com.ricardo.bankchallenge2.repositories.AccountRepository;
+import com.ricardo.bankchallenge2.services.exceptions.AccountAlreadyExistsException;
 import com.ricardo.bankchallenge2.services.exceptions.AccountNotFoundException;
 import com.ricardo.bankchallenge2.services.exceptions.InsufficientFundsException;
 import com.ricardo.bankchallenge2.services.exceptions.InvalidAccountTypeException;
@@ -37,6 +39,11 @@ public class AccountService {
 	}
 
 	public Account insert(Account account) {
+		Optional<Account> existingAccount = repository.findByAgencyNumberAndAccountNumber(account.getAgencyNumber(),
+				account.getAccountNumber());
+		if (existingAccount.isPresent()) {
+			throw new AccountAlreadyExistsException("Account already exists!");
+		}
 		return repository.save(account);
 	}
 
@@ -212,7 +219,7 @@ public class AccountService {
 	public void blockCard(Long id) {
 	    Account account = findById(id);
 	    if (account.isCardBlocked()) {
-	        return;
+	        throw new InvalidAccountTypeException("Card is already blocked.");
 	    }
 	    account.blockCard();
 	    repository.save(account);

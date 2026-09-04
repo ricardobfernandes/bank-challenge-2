@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -23,6 +24,8 @@ public class Transaction implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime dateTime;
 	private String type;
 	private Double amount;
@@ -75,6 +78,14 @@ public class Transaction implements Serializable{
 	    this.account = account;
 	}
 
+	public LocalDateTime getDateTime() {
+	    return dateTime;
+	}
+	
+	public void setDateTime(LocalDateTime dateTime) {
+	    this.dateTime = dateTime;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
