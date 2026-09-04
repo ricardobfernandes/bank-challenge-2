@@ -174,7 +174,10 @@ class Transaction {
     Double amount
 }
 
-class AccountType
+class AccountType{
+    CHECKING_ACCOUNT
+    SAVINGS_ACCOUNT
+}
 
 Account "1" --> "*" Transaction
 Account --> AccountType
