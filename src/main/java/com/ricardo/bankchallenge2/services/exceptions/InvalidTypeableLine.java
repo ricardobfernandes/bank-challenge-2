@@ -1,4 +1,4 @@
-package com.ricardo.bankchallenge2.exceptions;
+package com.ricardo.bankchallenge2.services.exceptions;
 
 public class InvalidTypeableLine extends RuntimeException {
 

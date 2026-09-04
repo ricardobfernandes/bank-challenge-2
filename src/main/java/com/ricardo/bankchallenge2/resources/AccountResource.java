@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.ricardo.bankchallenge2.entities.Account;
+import com.ricardo.bankchallenge2.entities.Transaction;
 import com.ricardo.bankchallenge2.services.AccountService;
 
 @RestController
@@ -100,6 +102,36 @@ public class AccountResource {
 	@PostMapping("/{id}/request-loan")
 	public ResponseEntity<Void> requestLoan(@PathVariable Long id, @RequestParam Double amount) {
 	    service.requestLoan(id, amount);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id}/transfer")
+	public ResponseEntity<Void> transfer(@PathVariable Long id, @RequestParam Integer destinationAgency, @RequestParam Integer destinationAccountNumber, @RequestParam Double amount) {
+	    service.transfer(id, destinationAgency, destinationAccountNumber, amount);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id}/pay-bill")
+	public ResponseEntity<Void> payBill(@PathVariable Long id, @RequestParam String typeableLine) {
+		service.payBill(id, typeableLine);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id}/invest")
+	public ResponseEntity<Void> investMoney(@PathVariable Long id, @RequestParam Double amount) {
+	    service.investMoney(id, amount);
+	    return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/{id}/transactions")
+	public ResponseEntity<List<Transaction>> getTransactions(@PathVariable Long id) {
+	    List<Transaction> transactions = service.getTransactions(id);
+	    return ResponseEntity.ok().body(transactions);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	    service.delete(id);
 	    return ResponseEntity.noContent().build();
 	}
 }

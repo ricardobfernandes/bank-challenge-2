@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ricardo.bankchallenge2.entities.enums.AccountType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +31,7 @@ public class Account implements Serializable{
 	
 	private Integer agencyNumber;
 	private Integer accountNumber;
+	@JsonIgnore
 	private String password;
 	private String address;
 	private String phoneNumber;
@@ -39,15 +42,16 @@ public class Account implements Serializable{
 	private String accountHolder;
 	private String cardNumber;
 	private String cardExpirationDate;
+	@JsonIgnore
 	private String cardCVV;
 	private boolean cardBlocked;
 	private Double investedBalance;
-	protected Double balance;
+	private Double balance;
 	private Double creditLimit;
 	private Double interestRate;
 	
-	@OneToMany
-	protected List<Transaction> transactions;
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+	private List<Transaction> transactions;
 
 	public Account(){
 	}
@@ -234,7 +238,8 @@ public class Account implements Serializable{
 	}
 
 	public void addTransaction(String type, Double amount) {
-		transactions.add(new Transaction(type, amount));
+	    Transaction transaction = new Transaction(type, amount, this);
+	    transactions.add(transaction);
 	}
 
 	public List<Transaction> getTransactions() {

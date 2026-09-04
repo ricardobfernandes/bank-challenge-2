@@ -5,10 +5,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,15 +26,21 @@ public class Transaction implements Serializable{
 	private LocalDateTime dateTime;
 	private String type;
 	private Double amount;
+	
+	@ManyToOne
+	@JoinColumn(name = "account_id")
+	@JsonIgnore
+	private Account account;
 
 	public Transaction() {
 	}
 	
-	public Transaction(String type, Double amount) {
+	public Transaction(String type, Double amount, Account account) {
 		super();
 		this.dateTime = LocalDateTime.now();
 		this.type = type;
 		this.amount = amount;
+		this.account = account;
 	}
 
 	public Long getId() {
@@ -55,6 +65,14 @@ public class Transaction implements Serializable{
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+	
+	public Account getAccount() {
+	    return account;
+	}
+
+	public void setAccount(Account account) {
+	    this.account = account;
 	}
 
 	@Override

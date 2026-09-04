@@ -1,6 +1,6 @@
 package com.ricardo.bankchallenge2.entities.enums;
 
-import com.ricardo.bankchallenge2.exceptions.InvalidAccountTypeException;
+import com.ricardo.bankchallenge2.services.exceptions.InvalidAccountTypeException;
 
 public enum AccountType {
 
